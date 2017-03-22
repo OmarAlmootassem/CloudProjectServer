@@ -1,10 +1,22 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var AWS = require('aws-sdk');
+var cradle = require('cradle');
 
 var router = express.Router();
 var Data = mongoose.model('Data');
 var dynamodb = new AWS.DynamoDB.DocumentClient();
+var couch = new(cradle.Connection)('104.196.42.6', 5984, { auth: {username: 'admin', password: 'p3qmVsnM'}}).database('test');
+
+couch.exists(function(err, exists){
+	if (err){
+		console.error(err);
+	} else if (!exists){
+		couch.create(function(err){
+
+		});
+	}
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -45,12 +57,36 @@ router.post('/dynamo_data', function(req, res, next){
 	});
 });
 
-router.get('/dynamo_data', function(req, res, next){
+router.get('/dynamo_data', function(req, res){
 	var params = {
 		TableName: "Test",
 		Key: {test: "testt"}
 	};
 	dynamodb.get(params, function(err, data){
+		if (err){
+			console.error(err);
+			throw err;
+		} else {
+			console.log(data);
+			res.json(data);
+		}
+	});
+});
+
+router.post('/couch_data', function(req, res, next){
+	couch.save(req.body, function(err, data){
+		if (err){
+			console.error(err);
+			throw err;
+		} else {
+			console.log(data);
+			res.json(data);
+		}
+	})
+});
+
+router.get('/couch_data', function(req, res){
+	couch.all(function(err, data){
 		if (err){
 			console.error(err);
 			throw err;
