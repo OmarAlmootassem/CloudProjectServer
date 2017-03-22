@@ -6,9 +6,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var AWS = require('aws-sdk');
 require('./models/data');
 
 mongoose.connect('mongodb://node_server:pass@104.196.193.253:27017/cloud');
+AWS.config.update({
+	region: "us-west-2",
+	endpoint: "https://dynamodb.us-west-2.amazonaws.com"
+});
 
 var index = require('./routes/index');
 var users = require('./routes/users');
