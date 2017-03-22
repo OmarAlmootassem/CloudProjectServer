@@ -57,10 +57,26 @@ router.post('/dynamo_data', function(req, res, next){
 	});
 });
 
-router.get('/dynamo_data', function(req, res){
+router.get('/dynamo_data_small', function(req, res){
 	var params = {
 		TableName: "Test",
-		Key: {test: "testt"}
+		Key: {test: "6bcf5569-5d09-d20d-2dc1-aae1413982d4"}
+	};
+	dynamodb.get(params, function(err, data){
+		if (err){
+			console.error(err);
+			throw err;
+		} else {
+			console.log(data);
+			res.json(data);
+		}
+	});
+});
+
+router.get('/dynamo_data_large', function(req, res){
+	var params = {
+		TableName: "Test",
+		Key: {test: "261d4fb5-0578-69d5-6232-90d67202f465"}
 	};
 	dynamodb.get(params, function(err, data){
 		if (err){

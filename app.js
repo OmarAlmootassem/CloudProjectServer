@@ -28,6 +28,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+app.use(cors());
 
 app.options('*', cors({origin:true, credentials: true}));
 
@@ -47,12 +48,6 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use('/', index);
 app.use('/users', users);
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
