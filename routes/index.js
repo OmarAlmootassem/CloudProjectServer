@@ -108,8 +108,20 @@ router.post('/couch_data', function(req, res, next){
 	})
 });
 
-router.get('/couch_data', function(req, res){
-	couch.all(function(err, data){
+router.get('/couch_data_small', function(req, res){
+	couch.get("afbb43af194da998f7a4256899001cff", {"include_docs": true}, function(err, data){
+		if (err){
+			console.error(err);
+			throw err;
+		} else {
+			console.log(data);
+			res.json(data);
+		}
+	});
+});
+
+router.get('/couch_data_large', function(req, res){
+	couch.get("afbb43af194da998f7a42568990026c2", {"include_docs": true}, function(err, data){
 		if (err){
 			console.error(err);
 			throw err;
