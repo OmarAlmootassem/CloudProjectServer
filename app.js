@@ -10,13 +10,16 @@ var AWS = require('aws-sdk');
 var cradle = require('cradle');
 require('./models/data');
 
+//Connect mongoose to the mongodb instance
 mongoose.connect('mongodb://node_server:pass@104.196.193.253:27017/cloud');
 
+//Configure AWS connection
 AWS.config.update({
 	region: "us-west-2",
 	endpoint: "https://dynamodb.us-west-2.amazonaws.com"
 });
 
+//Set up cradle with couchdb
 cradle.setup({
 	host: '104.196.42.6',
 	cache: true,
@@ -28,7 +31,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
-app.use(cors());
+app.use(cors());  //needed to eliminate cors issue
 
 app.options('*', cors({origin:true, credentials: true}));
 

@@ -23,6 +23,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+// Posts data to mongodb
 router.post('/mongo_data', function(req, res, next){
 	var data = new Data(req.body);
 
@@ -32,6 +33,7 @@ router.post('/mongo_data', function(req, res, next){
 	});
 });
 
+// Gets small data from mongodb
 router.get('/mongo_data_small', function(req, res){
 	Data.findOne({data_type: 'small'}, function(err, data){
 		if (err) throw err;
@@ -39,6 +41,7 @@ router.get('/mongo_data_small', function(req, res){
 	});
 });
 
+//Gets large data from mongodb
 router.get('/mongo_data_large', function(req, res){
 	Data.findOne({data_type: 'large'}, function(err, data){
 		if (err) throw err;
@@ -46,6 +49,7 @@ router.get('/mongo_data_large', function(req, res){
 	});
 });
 
+//Posts data to dynamodb
 router.post('/dynamo_data', function(req, res, next){
 	console.log(req.body);
 	var data = req.body;
@@ -64,6 +68,7 @@ router.post('/dynamo_data', function(req, res, next){
 	});
 });
 
+//Gets small data from dynamodb
 router.get('/dynamo_data_small', function(req, res){
 	var params = {
 		TableName: "Test",
@@ -80,6 +85,7 @@ router.get('/dynamo_data_small', function(req, res){
 	});
 });
 
+//Gets large data from dynamodb
 router.get('/dynamo_data_large', function(req, res){
 	var params = {
 		TableName: "Test",
@@ -96,6 +102,7 @@ router.get('/dynamo_data_large', function(req, res){
 	});
 });
 
+//Posts data to couchdb
 router.post('/couch_data', function(req, res, next){
 	couch.save(req.body, function(err, data){
 		if (err){
@@ -108,6 +115,7 @@ router.post('/couch_data', function(req, res, next){
 	})
 });
 
+//Gets small data from couchdb
 router.get('/couch_data_small', function(req, res){
 	couch.get("afbb43af194da998f7a4256899001cff", {"include_docs": true}, function(err, data){
 		if (err){
@@ -120,6 +128,7 @@ router.get('/couch_data_small', function(req, res){
 	});
 });
 
+//Gets large data from couchdb
 router.get('/couch_data_large', function(req, res){
 	couch.get("afbb43af194da998f7a42568990026c2", {"include_docs": true}, function(err, data){
 		if (err){
